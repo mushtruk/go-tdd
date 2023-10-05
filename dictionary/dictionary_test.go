@@ -40,6 +40,18 @@ func TestSearch(t *testing.T)  {
 		assertDefinition(t, dictionary, word, newDefinition)
 	})
 	
+	t.Run("delete word", func(t *testing.T) {
+		word := "test"
+		definition := "this is just and updated test"
+		dictionary := Dictionary{word: definition}
+
+		err := dictionary.Delete(word)
+
+		if err != ErrNotFound {
+			t.Errorf("Expected %q to be deleted", word)
+		}
+	})
+
 	t.Run("unknown word", func(t *testing.T) {
 		dictionary := Dictionary{"test": "this is just a test"}
 
