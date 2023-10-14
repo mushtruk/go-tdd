@@ -2,21 +2,21 @@ package dictionary
 
 import "testing"
 
-func TestSearch(t *testing.T)  {
-	
+func TestSearch(t *testing.T) {
+
 	t.Run("known word", func(t *testing.T) {
 		dictionary := Dictionary{"test": "this is just a test"}
 
-		assertDefinition(t, dictionary, "test","this is just a test")
+		assertDefinition(t, dictionary, "test", "this is just a test")
 	})
-	
+
 	t.Run("add word", func(t *testing.T) {
 		dictionary := Dictionary{}
 		dictionary.Add("test", "this is just a test")
-		
-		assertDefinition(t, dictionary, "test","this is just a test")
+
+		assertDefinition(t, dictionary, "test", "this is just a test")
 	})
-	
+
 	t.Run("existing word", func(t *testing.T) {
 		word := "test"
 		definition := "this is just a test"
@@ -26,26 +26,26 @@ func TestSearch(t *testing.T)  {
 		assertError(t, err, ErrAlreadyExists)
 		assertDefinition(t, dictionary, word, definition)
 	})
-	
+
 	t.Run("update word", func(t *testing.T) {
 		word := "test"
 		definition := "this is just and updated test"
 		dictionary := Dictionary{word: definition}
-		
+
 		newDefinition := "this is just and updated test"
 		err := dictionary.Update(word, newDefinition)
 
 		assertError(t, err, nil)
-		
+
 		assertDefinition(t, dictionary, word, newDefinition)
 	})
-	
+
 	t.Run("delete word", func(t *testing.T) {
 		word := "test"
 		definition := "this is just and updated test"
 		dictionary := Dictionary{word: definition}
 
-		err := dictionary.Delete(word)
+		dictionary.Delete(word)
 
 		if err != ErrNotFound {
 			t.Errorf("Expected %q to be deleted", word)
